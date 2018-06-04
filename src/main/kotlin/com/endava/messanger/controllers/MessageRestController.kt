@@ -26,7 +26,7 @@ class MessageRestController @Autowired constructor(var authUtils: IAuthUtils,var
             return Mono.empty();
         }
         message.username=currentUsername;
-        message.canAccess= setOf<String>(whom,currentUsername);
+        message.canAccess= TreeSet(setOf<String>(whom,currentUsername));
         message.created= LocalDateTime.now();
         message.updated=message.created;
         return messageService.save(message)
@@ -38,14 +38,19 @@ class MessageRestController @Autowired constructor(var authUtils: IAuthUtils,var
         if(currentUsername==null){
             return Flux.empty();
         }
-        var access= setOf<String>(currentUsername,whom);
+        var access= TreeSet(setOf<String>(whom,currentUsername));
         return messageService.getAll(access);
+    }
+
+    @DeleteMapping("/messages")
+    fun deleteAllMessages(){
+        messageService.deleteAll();
     }
 
     @GetMapping("/messages")
     fun getAll():Flux<Message>{
         return messageService.getAll();
     }
-
+    //TODO sort access before saving it ;
 
 }

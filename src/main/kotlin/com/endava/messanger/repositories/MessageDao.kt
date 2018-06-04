@@ -10,6 +10,5 @@ import reactor.core.publisher.Flux
 
 @Repository
 interface MessageDao:ReactiveMongoRepository<Message,String>{
-    fun findByCanAccessEveryOne(group:Set<String>): Flux<Message>
     fun findByCanAccessEquals(group:Set<String>):Flux<Message>;
 }

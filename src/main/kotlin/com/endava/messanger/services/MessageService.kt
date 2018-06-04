@@ -25,10 +25,15 @@ class MessageService @Autowired constructor(var messageDao: MessageDao){
         message.canAccess=usernames;
         var messageExample:Example<Message>;
         messageExample=Example.of(message);
+        println(usernames)
         return messageDao.findAll(messageExample);
     }
 
     fun getAll():Flux<Message>{
         return messageDao.findAll();
+    }
+
+    fun deleteAll() {
+        messageDao.deleteAll().subscribe()
     }
 }
